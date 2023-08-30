@@ -1,4 +1,8 @@
-﻿namespace ApplicationLINQ
+﻿using StudentManager;
+using CustomConsole;
+using GenericParse;
+
+namespace ApplicationLINQ
 {
 	internal class Program
 	{
