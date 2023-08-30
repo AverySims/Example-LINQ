@@ -16,20 +16,148 @@ namespace ApplicationLINQ
 			new Student(19, "William", "Anderson", new List<double>() { 80.3, 94.7, 68.2, 77.8, 86.6 } )
 		};
 
-		private static string[] menu1 = { "Find students with specific letter grade", "Group students by letter grade"};
-		private static string[] menu2 = { "Sort by age", "Sort by last name", "Sort by average grade" };
+		private static string[] menu1 = { "Get students by age", "Get students by letter grade" };
+		private static string[] menu2 = { "Sort by age", "Sort by first name", "Sort by last name", "Sort by letter grade", "Sort by average grade" };
+		private static string[] menu3 = { "Exit program" };
+
+		private static bool _loopMain = true;
 		
 		static void Main(string[] args)
 		{
-			string[][] menus = { menu1, menu2 };
+			while (_loopMain)
+			{
+				PrintMenu();
+				
+				//ConsoleHelper.PrintBlank();
+				//PrintStudents(_students);
+				
+				SelectMenuOption();
+			}
+		}
+
+		static void PrintMenu()
+		{
+			string[][] menus = { menu1, menu2, menu3 };
 			Console.WriteLine("Welcome to LINQ Student Manager");
-			ConsoleHelper.PrintMenu(menus);
-			
-			ConsoleHelper.UserEndProgram();
+			ConsoleHelper.PrintStrings(menus);
 		}
 		
+		static void SelectMenuOption()
+		{
+			while (true)
+			{
+				ConsoleHelper.PrintBlank();
+				Console.Write("Select option: ");
+
+				if (!SwitchOnMenuSelection(GenericReadLine.TryReadLine<int>()))
+				{
+					break;
+				}
+			}
+		}
+
+		static bool SwitchOnMenuSelection(int selection)
+		{
+			bool tempReturnValue = true;
+			
+			// clearing console and printing menu again to prevent clutter
+			Console.Clear();
+			PrintMenu();
+			
+			ConsoleHelper.PrintBlank();
+			switch (selection)
+			{
+				case 1: // Get students by age
+					Console.WriteLine("Get students by age");
+					PrintStudents(_students.Where(student => student.Age == 19).ToList());
+					break;
+				case 2: // Get students by letter grade
+					Console.Write("Get students by letter grade: ");
+					
+					var tempGrade = Console.ReadLine().ToUpper().ToCharArray()[0];
+					
+					Console.WriteLine(tempGrade);
+					PrintStudents(GetStudentsWithGrade('c'));
+					break;
+					var tempStudents = GetStudentsWithGrade(tempGrade);
+					
+					
+					if (ConsoleHelper.ListEmpty(tempStudents))
+					{
+						PrintNoStudentResults();
+						break;
+					}
+					PrintStudents(GetStudentsWithGrade('c'));
+					break;
+				case 3: // Sort by age
+					Console.WriteLine("Sort by age");
+					PrintStudents(SortByAge());
+					break;
+				case 4: // Sort by first name
+					Console.WriteLine("Sort by first name");
+					PrintStudents(SortByFirstName());
+					break;
+				case 5: // Sort by last name
+					Console.WriteLine("Sort by last name");
+					PrintStudents(SortByLastName());
+					break;
+				case 6: // Sort by letter grade
+					Console.WriteLine("Sort by letter grade");
+					break;
+				case 7: // Sort by average grade
+					Console.WriteLine("Sort by average grade");
+					break;
+				case 8: // Exit program
+					tempReturnValue = false;
+					_loopMain = false;
+					break;
+				default: // Invalid selection
+					ConsoleHelper.PrintInvalidSelection();
+					break;
+			}
+			return tempReturnValue;
+		}
 		
+		static void PrintStudents(List<Student> students)
+		{
+			foreach (Student student in students)
+			{
+				Console.WriteLine($"{student.FullName}, Age: {student.Age}, Grade: {student.LetterGrade} - {student.AverageGrade:F1}");
+			}
+		}
 		
+		static List<Student> GetStudentsWithGrade(char grade)
+		{
+			// forcing uppercase to make sure we get a match
+			char tempGrade = grade.ToString().ToUpper().ToCharArray()[0];
+			
+			return _students.Where(student => student.LetterGrade == tempGrade).ToList();
+		}
+		
+		static List<Student> GetStudentsWithAge(int age)
+		{
+			return _students.Where(student => student.Age == age).ToList();
+		}
+		
+		static List<Student> SortByAge()
+		{
+			return _students.OrderByDescending(student => student.Age).ToList();
+		}
+		
+		static List<Student> SortByFirstName()
+		{
+			return _students.OrderBy(student => student.FirstName).ToList();
+		}
+		
+		static List<Student> SortByLastName()
+		{
+			return _students.OrderBy(student => student.LastName).ToList();
+		}
+
+		static void PrintNoStudentResults()
+		{
+			Console.WriteLine("No students found that match the specified parameters.");
+		}
 		
 	}
 }

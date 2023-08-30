@@ -55,18 +55,18 @@ namespace CustomConsole
 		#endregion
 
 		#region Menu Printing
-		public static void PrintMenu(string[] menuItems)
+		public static void PrintStrings(string[] strings)
 		{
-			for (int i = 0; i < menuItems.Length; i++)
+			for (int i = 0; i < strings.Length; i++)
 			{
-				Console.WriteLine($"{i + 1}. {menuItems[i]}");
+				Console.WriteLine($"{i + 1}. {strings[i]}");
 			}
 		}
 
-		public static void PrintMenu(string[][] menuItems)
+		public static void PrintStrings(string[][] strings)
 		{
 			int tempIndex = 0;
-			foreach (var menu in menuItems)
+			foreach (var menu in strings)
 			{
 				for (int i = 0; i < menu.Length; i++)
 				{
@@ -93,5 +93,10 @@ namespace CustomConsole
 			Console.WriteLine("Invalid entry, please try again.");
 		}
 		#endregion
+		
+		public static bool ListEmpty<T>(List<T> list)
+		{
+			return !(list.Count > 0);
+		}
 	}
 }
