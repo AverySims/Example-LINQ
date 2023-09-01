@@ -16,8 +16,8 @@ namespace ApplicationLINQ
 			new Student(19, "William", "Anderson", new List<double>() { 80.3, 94.7, 68.2, 77.8, 86.6 } )
 		};
 
-		private static string[] menu1 = { "View unfiltered student list", "Get students by age", "Get students by letter grade", "Sort by age", "Sort by first name", "Sort by last name", "Group by letter grade", "Sort by average grade" };
-		private static string[] menu2 = { "Exit program" };
+		private static readonly string[] Menu1 = { "View unfiltered student list", "Get students by age", "Get students by letter grade", "Sort by age", "Sort by first name", "Sort by last name", "Group by letter grade", "Sort by average grade" };
+		private static readonly string[] Menu2 = { "Exit program" };
 
 		private static bool _loopMain = true;
 		
@@ -33,7 +33,7 @@ namespace ApplicationLINQ
 
 		static void PrintMenu()
 		{
-			string[][] menus = { menu1, menu2};
+			string[][] menus = { Menu1, Menu2};
 			Console.WriteLine("Welcome to LINQ Student Manager");
 			ConsoleHelper.PrintStrings(menus);
 		}
