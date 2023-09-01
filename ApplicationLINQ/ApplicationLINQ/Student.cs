@@ -6,6 +6,13 @@
 		public string FirstName { get; set; }
 		public string LastName { get; set; }
 		public List<double> Grades { get; set; }
+		public static List<char> GradeOrder
+		{
+			get
+			{
+				return new List<char>() { 'A', 'B', 'C', 'D', 'F' };
+			}
+		}
 		
 		public Student(int age, string nameFirst, string nameLast, List<double> grades)
 		{
@@ -24,7 +31,7 @@
 		{
 			// If there are no grades, return 0
 			// Otherwise, return the average of the grades
-			get { return Grades.Count == 0 ? 0 : Grades.Average(); }
+			get { return Grades.Count < 1 ? 0 : Grades.Average(); }
 		}
 
 		public char LetterGrade
